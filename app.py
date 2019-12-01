@@ -46,7 +46,6 @@ def before_request():
 CORS(lists, origins=['http://localhost:3000'], supports_credentials=True)
 # CORS(items, origins=['http://localhost:3000'], supports_credentials=True)
 
-
 # app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(lists, url_prefix='/api/v1/lists')
 # app.register_blueprint(items, url_prefix='/api/v1/items')
