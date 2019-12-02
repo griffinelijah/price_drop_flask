@@ -38,7 +38,9 @@ def get_lists_items(listId):
 	except models.DoesNotExist:
 		return jsonify(data={}, status={'code': 401, 'message': 'Error retrieving resources'}), 401
 
+#delete an item
 @items.route('/<itemId>', methods=['DELETE'])
+@login_required
 def delete_item(itemId):
 	#query for item that matches id
 	item_to_delete = models.Item.get_by_id(itemId)
