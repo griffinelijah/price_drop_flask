@@ -14,7 +14,7 @@ class User(UserMixin, Model):
 
 class List(Model):
 	title = CharField()
-	user_id = ForeignKeyField(User, backref='lists')
+	user = ForeignKeyField(User, backref='lists')
 	created_date = DateTimeField(default=datetime.datetime.now)
 
 	class Meta:
