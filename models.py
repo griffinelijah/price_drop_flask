@@ -5,10 +5,9 @@ from flask_login import UserMixin
 DATABASE = SqliteDatabase('price_drop.sqlite')
 
 class User(UserMixin, Model):
-	username = CharField(unique = True)
 	email = CharField(unique = True)
+	password = CharField()
 	created_date = DateTimeField(default=datetime.datetime.now)
-	user_id = CharField(primary_key=True)
 
 	class Meta:
 		database = DATABASE
@@ -17,7 +16,6 @@ class List(Model):
 	title = CharField()
 	user_id = ForeignKeyField(User, backref='lists')
 	created_date = DateTimeField(default=datetime.datetime.now)
-	list_id = CharField(primary_key=True)
 
 	class Meta:
 		database = DATABASE
