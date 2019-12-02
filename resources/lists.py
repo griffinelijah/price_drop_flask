@@ -10,11 +10,11 @@ lists = Blueprint('lists', 'lists')
 def create_list():
 	#this will take the info from the payload to create a new post
 	payload = request.get_json()
-	item_list = models.List.create(
+	new_list = models.List.create(
 		title=payload['title'],
 		user_id=current_user.id
 	)
 	#turn into dict before returning object
-	item_list_dict = model_to_dict(item_list	)
-	return jsonify(data=list_dict, status={'code': 201, 'message':'successfully created list'}), 201
+	new_list_dict = model_to_dict(new_list)
+	return jsonify(data=new_list_dict, status={'code': 201, 'message':'successfully created list'}), 201
 
