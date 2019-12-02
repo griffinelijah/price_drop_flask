@@ -28,6 +28,45 @@ def register():
 		#turn to dict and delete pw before sending response
 		user_dict = model_to_dict(user)
 		del user_dict['password']
-		return jsonify(data=user_dict, status={'code': 201, 'message': 'Successfully registered new user'}), 201
+		return jsonify(data=user_dict, status={'code': 201, 'message': 'Successfully registered {}'.format(user_dict['email'])}), 201
 
 #login as existing user
+@users.route('/login', methods=['POST'])
+def login():
+	payload = request.get_json()
+	#check email, if there is a match continue
+	try:
+		user = models.User.get(models.User.email == payload['email'])
+		#if it matches, turn to dicty and proceed to check pw
+		user_dict = model_to_dict(user)
+		if(check_password_hash(user_dict['password'], payload['password'])):
+			#if the pws match login the user
+			login_user(user)
+			#remove pw before sending response
+			del user_dict['password']
+			return jsonify(data=user_dict, status={'code': 200, 'message': 'Successfully logged in {}'.format(user_dict['email'])}), 200
+		else:#if pw does not match 
+			return jsonify(data={}, status={'code': 401, 'message': 'Username or Password is incorrect'}), 401
+	except models.DoesNotExist:
+		return jsonify(data={}, status={'code': 401, 'message': 'Username or Password is incorrect'}), 401
+
+#logout user
+@users.route('/logout', methods=['GET'])
+def logout():
+	email = model_to_dict(current_user)['email']
+	logout_user()
+
+	return jsonify(data={}, status={'code': 200, 'message': 'Successfully logged out {}'.format(email)}), 200
+
+
+
+
+
+
+
+
+
+
+
+
+
