@@ -1,6 +1,7 @@
 import models
 from flask import Blueprint, jsonify, request
 from playhouse.shortcuts import model_to_dict
+from flask_login import current_user
 
 items = Blueprint('items', 'items')
 
@@ -34,4 +35,26 @@ def get_lists_items(listId):
 		return jsonify(data=items, status={'code': 200, 'message': 'Successfully retreived all items'}), 200
 	except models.DoesNotExist:
 		return jsonify(data={}, status={'code': 401, 'message': 'Error retrieving resources'}), 401
+
+@items.route('/<itemId>', methods=['DELETE'])
+def delete_item(itemId):
+	#query for item that matches id
+	item_to_delete = models.Item.get_by_id(itemId)
+	print('\nthis is item_to_delete')
+	print(item_to_delete)
+	item_to_delete.delete_instance()
+	return jsonify(data={}, status={'code': 200, 'message': 'Successfully delete item'})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
