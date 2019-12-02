@@ -15,5 +15,5 @@ soup = BeautifulSoup(plain_html.text, 'html.parser')
 item_container = soup.find('div', {'class': 'grpArticle'})
 # print(item_container)
 
-item_title = item_container.find('span', {'id': 'grpDescrip_14-137-256'})
+item_title = item_container.find('h1', {'id': 'grpDescrip_h'})
 print(item_title.text.strip())
