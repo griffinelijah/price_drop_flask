@@ -33,6 +33,26 @@ def current_users_lists():
 		return jsonify(data={}, status={'code': 401, 'message': 'error retrieving lists'}), 401
 
 @lists.route('/<id>', methods=['PUT'])
+def update_post(id):
+	payload = request.get_json()
+	#find list that matches id being passed through
+	list_to_update = models.List.get_by_id(id)
+
+	#check to make list's user id matches logged in user(this should not happen as only posts that belong to a certain user are being displayed)
+	if(list_to_update.user.id == current_user.id):
+		list_to_update.title = payload['title'] if 'title' in payload else none
+
+		list_to_update.save()
+		list_dict = model_to_dict(list_to_update)
+
+		#remove pw before returning response
+		list_dict['user'].pop('password')
+		return jsonify(data=list_dict, status={'code': 200, 'message': 'list successfully updated'}), 200
+
+	else:
+		return jsonify(data='Foribdden', status={'code': 403, 'message': 'You must be the owner of this list to update it'}), 403
+	return jsonify(data=list_dict, status={'code': 200, 'message': 'list successfully updated'}), 200
+
 
 #delete a list
 @lists.route('/<id>', methods=['DELETE'])
