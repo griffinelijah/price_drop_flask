@@ -24,3 +24,14 @@ def create_item(listId):
 	item_dict = model_to_dict(item)
 	print(item_dict)
 	return jsonify(data=item_dict, status={'code': 201, 'message': "Successfully created item"}), 201
+
+#get a lists items
+@items.route('/<listId>', methods=['GET'])
+def get_lists_items(listId):
+	try:
+		#query for all items that belong to the postid being passed in the uurl
+		items = [model_to_dict(items) for items in models.Item.select().where(models.Item.list_id == listId)]
+		return jsonify(data=items, status={'code': 200, 'message': 'Successfully retreived all items'}), 200
+	except models.DoesNotExist:
+		return jsonify(data={}, status={'code': 401, 'message': 'Error retrieving resources'}), 401
+
