@@ -7,6 +7,7 @@ lists = Blueprint('lists', 'lists')
 
 #create route for a new list
 @lists.route('/', methods=['POST'])
+@login_required
 def create_list():
 	#this will take the info from the payload to create a new post
 	payload = request.get_json()
@@ -21,6 +22,7 @@ def create_list():
 
 #display all lists belonging to logged in user
 @lists.route('/myLists', methods=['GET'])
+@login_required
 def current_users_lists():
 	#look for all lists that have a userid matching the logged in users id
 	try:
@@ -33,6 +35,7 @@ def current_users_lists():
 		return jsonify(data={}, status={'code': 401, 'message': 'error retrieving lists'}), 401
 
 @lists.route('/<id>', methods=['PUT'])
+@login_required
 def update_post(id):
 	payload = request.get_json()
 	#find list that matches id being passed through
@@ -56,6 +59,7 @@ def update_post(id):
 
 #delete a list
 @lists.route('/<id>', methods=['DELETE'])
+@login_required
 def delete_post(id):
 	#find post that matches the id being passed through 
 	list_to_delete = models.List.get_by_id(id)

@@ -1,12 +1,13 @@
 import models
 from flask import Blueprint, jsonify, request
 from playhouse.shortcuts import model_to_dict
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 items = Blueprint('items', 'items')
 
 #create route for items
 @items.route('/<listId>', methods=['POST'])
+@login_required
 def create_item(listId):
 	payload = request.get_json()
 	#query for List to add item to
@@ -28,6 +29,7 @@ def create_item(listId):
 
 #get a lists items
 @items.route('/<listId>', methods=['GET'])
+@login_required
 def get_lists_items(listId):
 	try:
 		#query for all items that belong to the postid being passed in the uurl
