@@ -32,6 +32,8 @@ def current_users_lists():
 	except models.DoesNotExist:
 		return jsonify(data={}, status={'code': 401, 'message': 'error retrieving lists'}), 401
 
+@lists.route('/<id>', methods=['PUT'])
+
 #delete a list
 @lists.route('/<id>', methods=['DELETE'])
 def delete_post(id):
