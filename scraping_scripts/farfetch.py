@@ -18,3 +18,6 @@ print(name.text.strip())
 #this will get the image src for item
 image = soup.findAll('img', {'class': '_221e30'})
 print(image[0])
+
+
+
