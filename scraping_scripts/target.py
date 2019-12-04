@@ -15,12 +15,15 @@ delay = 5
 
 driver.get(target_url)
 
-element= WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.h-padding-b-default > div.h-text-red > div:nth-child(3)')))
-print('element is ready!')
-element_text = element.text
-print(element_text)
-html_of_interest = driver.execute_script('return arguments[0].innerHTML',element)
-sel_soup=BeautifulSoup(html_of_interest, 'html.parser')
+try:
+	element= WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.h-padding-b-default > div.h-text-red > div:nth-child(3)')))
+	print('element is ready!')
+	element_text = element.text
+	print(element_text)
+	html_of_interest = driver.execute_script('return arguments[0].innerHTML',element)
+	sel_soup=BeautifulSoup(html_of_interest, 'html.parser')
+except:
+	print('error scraping resource')
 
 #url to be scraped / will later change to a variable that will hold url user inputs
 sauce = urllib.request.urlopen(target_url).read()
