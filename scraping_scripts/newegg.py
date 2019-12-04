@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 driver = webdriver.Chrome(executable_path='/Users/griffindelgado/Downloads/chromedriver')
 
 #this is the url that will be parsed
-newegg_url = ('https://www.newegg.com/msi-geforce-rtx-2070-super-rtx-2070-super-ventus-oc/p/N82E16814137438?Item=N82E16814137438&cm_sp=Homepage_BS-_-P2_14-137-438-_-12042019')
+newegg_url = ('https://www.newegg.com/msi-geforce-rtx-2070-super-rtx-2070-super-ventus-oc/p/N82E16814137438')
 
 #5 second delay to load page and scrape before returning error 
 delay = 5
@@ -28,3 +28,30 @@ try:
 	sel_soup=BeautifulSoup(html_of_interest, 'html.parser')
 except:
 	print('error scraping resource')
+
+#url to be scraped / will later change to a variable that will hold url user inputs
+sauce = urllib.request.urlopen(newegg_url).read()
+
+#load all html in variable
+soup = bs.BeautifulSoup(sauce, 'html.parser')
+
+
+name = soup.find('h1', {'id': 'grpDescrip_h'})
+name_text = name.get_text().strip()
+print(name_text)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
