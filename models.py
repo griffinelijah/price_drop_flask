@@ -39,11 +39,11 @@ class Item(Model):
 	class Meta:
 		database = DATABASE
 
-
 def initialize():
 	DATABASE.connect()
 	DATABASE.create_tables([User, List, Item], safe=True)
 	print('TABLES CREATED')
+
 	#creating item object with data pulled from variables iin the farfetch.py file
 	item_object_farfetch = Item(url = farfetch_url, name = farfetch_name_text, image = farfetch_image_src, original_price = farfetch_orig_price_text, disc_price = farfetch_disc_price_text, notif_preference = '25')
 	#turn into dict before creating record in db
@@ -63,9 +63,6 @@ def initialize():
 
 	item_dict_etsy = model_to_dict(item_object_etsy)
 	Item.create(**item_dict_etsy)
-
-
-
 
 	DATABASE.close()
 
