@@ -24,10 +24,23 @@ try:
 	print('element is ready!')
 	element_text = element.text
 	print(element_text)
-	html_of_interest = driver.execute_script('return arguments[0].innerHTML',element)
+	html_of_interest = driver.execute_script('return arguments[0].innerHTML',element,)
 	sel_soup=BeautifulSoup(html_of_interest, 'html.parser')
 except:
 	print('error scraping resource')
+
+#second try except to get discounted price 
+try:
+	element_orig_price= WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, '#viewport > div:nth-child(4) > div > div.Row-uds8za-0.gnKDVb > div.Col-favj32-0.h-padding-h-default.h-padding-t-tight.styles__StyledCol-sc-1n8m629-12.eiisQZ > div.h-padding-b-default > div.h-text-red > div.h-text-bold.style__PriceFontSize-gob4i1-0.eLdTvF')))
+	print('element is ready!')
+	element_orig_text = element_orig_price.text
+	print(element_orig_text)
+	html_of_interest = driver.execute_script('return arguments[0].innerHTML',element_orig_price,)
+	sel_soup=BeautifulSoup(html_of_interest, 'html.parser')
+except:
+	print('error scraping resource')
+
+
 
 #url to be scraped / will later change to a variable that will hold url user inputs
 sauce = urllib.request.urlopen(target_url).read()
