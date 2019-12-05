@@ -20,10 +20,10 @@ delay = 5
 driver.get(target_url)
 
 try:
-	element= WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.h-padding-b-default > div.h-text-red > div:nth-child(3)')))
+	element_disc_price= WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.h-padding-b-default > div.h-text-red > div:nth-child(3)')))
 	print('element is ready!')
-	element_text = element.text
-	print(element_text)
+	element__disc_text = element_disc_price.text
+	print(element__disc_text)
 	html_of_interest = driver.execute_script('return arguments[0].innerHTML',element,)
 	sel_soup=BeautifulSoup(html_of_interest, 'html.parser')
 except:
