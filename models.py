@@ -20,6 +20,7 @@ class User(UserMixin, Model):
 
 class List(Model):
 	title = CharField()
+	notif_preference = CharField()
 	user = ForeignKeyField(User, backref='lists')
 	created_date = DateTimeField(default=datetime.datetime.now)
 
@@ -32,7 +33,6 @@ class Item(Model):
 	image = CharField()
 	original_price = CharField()
 	disc_price = CharField()
-	notif_preference = CharField()
 	created_date = DateTimeField(default=datetime.datetime.now)
 	list_id = ForeignKeyField(List, backref='items', null=True)
 

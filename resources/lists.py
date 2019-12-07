@@ -13,7 +13,8 @@ def create_list():
 	payload = request.get_json()
 	new_list = models.List.create(
 		title=payload['title'],
-		user_id=current_user.id
+		user_id=current_user.id,
+		notif_preference=payload['notif_preference']
 	)
 	#turn into dict before returning object
 	new_list_dict = model_to_dict(new_list)
