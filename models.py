@@ -44,13 +44,6 @@ def initialize():
 	DATABASE.create_tables([User, List, Item], safe=True)
 	print('TABLES CREATED')
 
-	#creating item object with data pulled from variables iin the farfetch.py file
-	# item_object_farfetch = Item(url = farfetch_url, name = farfetch_name_text, image = farfetch_image_src, original_price = farfetch_orig_price_text, disc_price = farfetch_disc_price_text, notif_preference = '25')
-	#turn into dict before creating record in db
-	# item_dict_farfetch = model_to_dict(item_object_farfetch)
-	#create db entry in the Item table with spread op info
-	# Item.create(**item_dict_farfetch)
-
 	#this will be used to create a target item
 	# item_object_target = Item(url = target_url, name = target_name_text, image = target_image_src, original_price = target_orig_price_text, disc_price = target_disc_price_text, notif_preference = '25')
 
