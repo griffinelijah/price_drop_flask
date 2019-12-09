@@ -127,9 +127,40 @@ def create_item(listId):
 		#turn to dict before sending response
 		item_dict = model_to_dict(target_item)
 		print(item_dict)
+	else:
+		print('url contains etsy')
+		etsy_url = (payload['url'])
 
+		sauce = urllib.request.urlopen(etsy_url).read()
 
-	return jsonify(data=str(item_dict), status={'code': 201, 'message': "Successfully created item"}), 201
+		soup = bs.BeautifulSoup(sauce, 'html.parser')
+
+		#ths wll get us the original price on etsy
+		orig_price = soup.find('span', {'class': 'text-largest strong override-listing-price'})
+		etsy_orig_price_text = orig_price.text.strip()
+		print(etsy_orig_price_text)
+
+		#this gets us thee naem of the item
+		etsy_name = soup.select('#listing-page-cart > div.pt-xs-1.pr-xs-2.pb-xs-2.pl-xs-2.p-md-0.bg-white.buy-box-toolkit > div.listing-page-title-component > h1')
+		etsy_name_text = etsy_name[0].text.strip()
+		print(etsy_name_text)
+
+		#this gets us the image
+		etsy_image = soup.find('img', {'class': 'max-width-full horizontal-center vertical-center carousel-image'})
+		etsy_image_src = etsy_image['src']
+		print(etsy_image_src)
+		item_object_etsy = models.Item(url = etsy_url, name = etsy_name_text,
+		image = etsy_image_src, original_price = etsy_orig_price_text, disc_price = etsy_orig_price_text, notif_preference = '25')
+
+		item_dict_etsy = model_to_dict(item_object_etsy)
+		
+		etsy_item = models.Item.create(
+			**item_dict_etsy
+		)
+
+		item_dict = model_to_dict(etsy_item)
+
+		return jsonify(data=str(item_dict), status={'code': 201, 'message': "Successfully created item"}), 201
 
 #get a lists items
 @items.route('/<listId>', methods=['GET'])
