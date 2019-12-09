@@ -45,6 +45,7 @@ def update_post(id):
 	#check to make list's user id matches logged in user(this should not happen as only posts that belong to a certain user are being displayed)
 	if(list_to_update.user.id == current_user.id):
 		list_to_update.title = payload['title'] if 'title' in payload else none
+		list_to_update.notif_preference = payload['notif_preference'] if 'notif_preference' in payload else none
 
 		list_to_update.save()
 		list_dict = model_to_dict(list_to_update)
