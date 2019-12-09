@@ -59,6 +59,7 @@ def create_item(listId):
 		#turn to dict before sending response
 		item_dict = model_to_dict(farfetch_item)
 		print(item_dict)
+		return jsonify(data=str(item_dict), status={'code': 201, 'message': "Successfully created item"}), 201
 	elif(payload['url'].find('target') != -1):
 		print('url contains target')
 		driver = webdriver.Chrome(executable_path='/Users/griffindelgado/Downloads/chromedriver')
@@ -127,6 +128,7 @@ def create_item(listId):
 		#turn to dict before sending response
 		item_dict = model_to_dict(target_item)
 		print(item_dict)
+		return jsonify(data=str(item_dict), status={'code': 201, 'message': "Successfully created item"}), 201
 	else:
 		print('url contains etsy')
 		etsy_url = (payload['url'])

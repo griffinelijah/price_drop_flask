@@ -12,7 +12,7 @@
 # driver = webdriver.Chrome(executable_path='/Users/griffindelgado/Downloads/chromedriver')
 
 # #this is the url that will be parsed
-# target_url = ('https://www.target.com/p/apple-ipad-10-2-inch-wi-fi-only-7th-generation/-/A-78305935?preselect=54184213#lnk=sametab')
+# target_url = (payload['url'])
 
 # #5 second delay to load page and scrape before returning error 
 # delay = 5
