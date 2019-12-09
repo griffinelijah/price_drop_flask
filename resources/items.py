@@ -21,6 +21,7 @@ def create_item(listId):
 	#query for List to add item to
 	found_list = models.List.get_by_id(listId)
 
+	#if url includes farfetch run these scrips and create farfetch item object
 	if(payload['url'].find('farfetch') != -1):
 		print('url contains farfetch')
 		farfetch_url = (payload['url'])
@@ -47,19 +48,33 @@ def create_item(listId):
 		#this will get the image src for item
 		image = soup.find('img', {'class': '_221e30'})
 		farfetch_image_src = image['src']
+		print('\nthis is listId in create item for farfetcg')
+		print(listId)
 
-		item_object_farfetch = models.Item(url = farfetch_url, name = farfetch_name_text, image =farfetch_image_src, original_price = farfetch_orig_price_text, disc_price = farfetch_disc_price_text, notif_preference = '25')
-		#turn into dict before creating record in db
-		item_dict_farfetch = model_to_dict(item_object_farfetch)
+		# item_to_create = {
+		# 	url: farfetch_url, 
+		# 	name: farfetch_name_text, 
+		# 	image: farfetch_image_src, 
+		# 	original_price: farfetch_orig_price_text, 
+		# 	disc_price: farfetch_disc_price_text, 
+		# 	list_id: listId
+		# }
+
+
+		# item_object_farfetch = models.Item(url = farfetch_url, name = farfetch_name_text, image =farfetch_image_src, original_price = farfetch_orig_price_text, disc_price = farfetch_disc_price_text, list_id = listId)
+		# #turn into dict before creating record in db
+		# item_dict_farfetch = model_to_dict(item_object_farfetch)
+		# print("__________________________")
+		# print(item_dict_farfetch)
+		# item_dict_farfetch['list_id'] = item_dict_farfetch['list_id']['id']
 		#create the new item with payload info
-		farfetch_item = models.Item.create(
-			**item_dict_farfetch
-		)
+		farfetch_item = models.Item.create(url = farfetch_url, name = farfetch_name_text, image =farfetch_image_src, original_price = farfetch_orig_price_text, disc_price = farfetch_disc_price_text, list_id = listId)
 
 		#turn to dict before sending response
 		item_dict = model_to_dict(farfetch_item)
 		print(item_dict)
 		return jsonify(data=str(item_dict), status={'code': 201, 'message': "Successfully created item"}), 201
+		#else if url includes target run these scripts and create target item
 	elif(payload['url'].find('target') != -1):
 		print('url contains target')
 		driver = webdriver.Chrome(executable_path='/Users/griffindelgado/Downloads/chromedriver')
@@ -117,7 +132,7 @@ def create_item(listId):
 		target_image_src = target_image['src']
 		print(target_image_src)
 
-		item_object_target = models.Item(url = target_url, name = target_name_text, image =target_image_src, original_price = target_orig_price_text, disc_price = target_disc_price_text, notif_preference = '25')
+		item_object_target = models.Item(url = target_url, name = target_name_text, image =target_image_src, original_price = target_orig_price_text, disc_price = target_disc_price_text, list_id = listId)
 		#turn into dict before creating record in db
 		item_dict_target = model_to_dict(item_object_target)
 		#create the new item with payload info
@@ -130,6 +145,7 @@ def create_item(listId):
 		print(item_dict)
 		return jsonify(data=str(item_dict), status={'code': 201, 'message': "Successfully created item"}), 201
 	else:
+		#if url contains etsy run these scripts and create etsy item object
 		print('url contains etsy')
 		etsy_url = (payload['url'])
 
@@ -152,7 +168,7 @@ def create_item(listId):
 		etsy_image_src = etsy_image['src']
 		print(etsy_image_src)
 		item_object_etsy = models.Item(url = etsy_url, name = etsy_name_text,
-		image = etsy_image_src, original_price = etsy_orig_price_text, disc_price = etsy_orig_price_text, notif_preference = '25')
+		image = etsy_image_src, original_price = etsy_orig_price_text, disc_price = etsy_orig_price_text, list_id = listId)
 
 		item_dict_etsy = model_to_dict(item_object_etsy)
 		

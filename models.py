@@ -34,7 +34,7 @@ class Item(Model):
 	original_price = CharField()
 	disc_price = CharField()
 	created_date = DateTimeField(default=datetime.datetime.now)
-	list_id = ForeignKeyField(List, backref='items', null=True)
+	list_id = ForeignKeyField(List, backref='items')
 
 	class Meta:
 		database = DATABASE
