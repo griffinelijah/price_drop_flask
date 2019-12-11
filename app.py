@@ -48,9 +48,9 @@ def after_request(response):
 	g.db.close()
 	return response
 
-CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(lists, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(items, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000', 'https://price-drop-react.herokuapp.com'], supports_credentials=True)
+CORS(lists, origins=['http://localhost:3000', 'https://price-drop-react.herokuapp.com'], supports_credentials=True)
+CORS(items, origins=['http://localhost:3000', 'https://price-drop-react.herokuapp.com'], supports_credentials=True)
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(lists, url_prefix='/api/v1/lists')
