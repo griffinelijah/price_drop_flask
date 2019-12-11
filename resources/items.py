@@ -52,7 +52,7 @@ def create_item(listId):
 		print(listId)
 
 		#create the new item with payload info
-		farfetch_item = models.Item.create(url = farfetch_url, name = farfetch_name_text, image =farfetch_image_src, original_price = farfetch_orig_price_text, disc_price = farfetch_disc_price_text, list_id = listId)
+		farfetch_item = models.Item.create(url = farfetch_url, name = farfetch_name_text, image =farfetch_image_src, original_price = farfetch_orig_price_text, disc_price = farfetch_disc_price_text, list_id = listId, user=current_user.id)
 
 		#turn to dict before sending response
 		item_dict = model_to_dict(farfetch_item)
@@ -116,12 +116,11 @@ def create_item(listId):
 		target_image_src = target_image['src']
 		print(target_image_src)
 
-		item_object_target = models.Item(url = target_url, name = target_name_text, image =target_image_src, original_price = target_orig_price_text, disc_price = target_disc_price_text, list_id = listId)
+		item_object_target = models.Item(url = target_url, name = target_name_text, image =target_image_src, original_price = target_orig_price_text, disc_price = target_disc_price_text, list_id = listId, user=current_user.id)
 		#turn into dict before creating record in db
 		item_dict_target = model_to_dict(item_object_target)
 		#create the new item with payload info
-		target_item = models.Item.create(
-			**item_dict_target
+		target_item = models.Item.create(url = target_url, name = target_name_text, image = target_image_src, original_price = target_orig_price_text, disc_price = target_disc_price_text, list_id = listId, user=current_user.id
 		)
 
 		#turn to dict before sending response
@@ -152,12 +151,12 @@ def create_item(listId):
 		etsy_image_src = etsy_image['src']
 		print(etsy_image_src)
 		item_object_etsy = models.Item(url = etsy_url, name = etsy_name_text,
-		image = etsy_image_src, original_price = etsy_orig_price_text, disc_price = etsy_orig_price_text, list_id = listId)
+		image = etsy_image_src, original_price = etsy_orig_price_text, disc_price = etsy_orig_price_text, list_id = listId, user=current_user.id)
 
 		item_dict_etsy = model_to_dict(item_object_etsy)
 		
-		etsy_item = models.Item.create(
-			**item_dict_etsy
+		etsy_item = models.Item.create(url = etsy_url, name = etsy_name_text,
+		image = etsy_image_src, original_price = etsy_orig_price_text, disc_price = etsy_orig_price_text, list_id = listId, user=current_user.id
 		)
 
 		item_dict = model_to_dict(etsy_item)
@@ -170,6 +169,8 @@ def create_item(listId):
 def get_lists_items(listId):
 	try:
 		#query for all items that belong to the postid being passed in the uurl
+		list = models.List.get_by_id(listId)
+		print('queried list:', list)
 		items = [model_to_dict(items) for items in models.Item.select().where(models.Item.list_id == listId)]
 		return jsonify(data=items, status={'code': 200, 'message': 'Successfully retreived all items'}), 200
 	except models.DoesNotExist:
