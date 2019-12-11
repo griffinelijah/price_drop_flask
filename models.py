@@ -19,9 +19,9 @@ class User(UserMixin, Model):
 		database = DATABASE
 
 class List(Model):
+	user = ForeignKeyField(User, backref='lists')
 	title = CharField()
 	notif_preference = CharField()
-	user = ForeignKeyField(User, backref='lists')
 	created_date = DateTimeField(default=datetime.datetime.now)
 
 	class Meta:
@@ -34,10 +34,12 @@ class Item(Model):
 	original_price = CharField()
 	disc_price = CharField()
 	created_date = DateTimeField(default=datetime.datetime.now)
+	user = ForeignKeyField(User, backref='items')
 	list_id = ForeignKeyField(List, backref='items')
 
 	class Meta:
 		database = DATABASE
+
 
 def initialize():
 	DATABASE.connect()
